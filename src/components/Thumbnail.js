@@ -14,8 +14,8 @@ class Thumbnail extends React.Component {
   render() {
     return (
       <div className="thumbnail">
-        <a href={this.props.image.originalPath} onClick={this.handleClick}>
-          <img src={this.props.image.thumbnailPath} alt="" />
+        <a href={process.env.PUBLIC_URL + this.props.image.originalPath} onClick={this.handleClick}>
+          <img src={process.env.PUBLIC_URL + this.props.image.thumbnailPath} alt="" />
         </a>
       </div>
     );

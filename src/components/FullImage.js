@@ -22,7 +22,7 @@ class FullImage extends React.Component {
       <div className="modal-wrapper">
         <div className="modal-box">
           <div className="modal-main">
-            <img src={this.props.image.originalPath} alt="" />
+            <img src={process.env.PUBLIC_URL + this.props.image.originalPath} alt="" />
           </div>
           <div className="modal-additional">
             <button
