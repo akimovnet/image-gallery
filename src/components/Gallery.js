@@ -13,6 +13,8 @@ class Gallery extends React.Component {
     this.handleCloseClick = this.handleCloseClick.bind(this);
     this.handleLikeClick = this.handleLikeClick.bind(this);
     this.handleSubmitComment = this.handleSubmitComment.bind(this);
+    this.handleChangeCurrentToNext = this.handleChangeCurrentToNext.bind(this);
+    this.handleChangeCurrentToPrevious = this.handleChangeCurrentToPrevious.bind(this);
   }
 
   handleThumbnailClick(image) {
@@ -55,6 +57,30 @@ class Gallery extends React.Component {
     });
   }
 
+  handleChangeCurrentToNext() {
+    this.handleChangeCurrent(i => ++i);
+  }
+
+  handleChangeCurrentToPrevious() {
+    this.handleChangeCurrent(i => --i);
+  }
+
+  handleChangeCurrent(f) {
+    const currentImageId = this.state.currentImageId;
+    const currentIndex = this.state.imageList.findIndex(image => image.id === currentImageId);
+    let newCurrentIndex = f(currentIndex);
+    if (newCurrentIndex >= this.state.imageList.length) {
+      newCurrentIndex %= this.state.imageList.length;
+    }
+    while (newCurrentIndex < 0) {
+      newCurrentIndex += this.state.imageList.length;
+    }
+    const newCurrentImageId = this.state.imageList[newCurrentIndex].id;
+    this.setState({
+      currentImageId: newCurrentImageId
+    });
+  }
+
   render() {
     return (
       <div className="gallery">
@@ -63,7 +89,9 @@ class Gallery extends React.Component {
             image={this.state.imageList.find(image => image.id === this.state.currentImageId)}
             onCloseClick={this.handleCloseClick}
             onLikeClick={this.handleLikeClick}
-            onSubmitComment={this.handleSubmitComment} />
+            onSubmitComment={this.handleSubmitComment}
+            onChangeCurrentToNext={this.handleChangeCurrentToNext}
+            onChangeCurrentToPrevious={this.handleChangeCurrentToPrevious} />
         ) : null}
         <div className="image-list">
           {this.state.imageList.map(image =>
